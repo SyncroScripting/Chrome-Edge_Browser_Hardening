@@ -130,6 +130,15 @@ $tlsVersion = "tls1"
 $disableSavePassword = "true"
 
 
+<# Disable address autofill
+("AutofillAddressEnabled policy) #>
+
+$disableAddressAutofill = "false"
+
+<# Disable payment autofill
+("AutofillCreditCardEnabled") #>
+
+$disablePayment = "false"
 
 
 
@@ -454,6 +463,22 @@ if ($disableSavePassword -eq "true") {
 }else {
     Del-Val $ChromeRegistryBase PasswordManagerEnabled
     Del-Val $EdgeRegistryBase PasswordManagerEnabled
+}
+
+if ($disableAddressAutofill -eq "true") {
+    Set-Val $ChromeRegistryBase AutofillAddressEnabled DWord 0x00000000
+    Set-Val $EdgeRegistryBase AutofillAddressEnabled DWord 0x00000000
+}else {
+    Del-Val $ChromeRegistryBase AutofillAddressEnabled
+    Del-Val $EdgeRegistryBase AutofillAddressEnabled
+}
+
+if ($disablePayment -eq "true") {
+    Set-Val $ChromeRegistryBase AutofillCreditCardEnabled DWord 0x00000000
+    Set-Val $EdgeRegistryBase AutofillCreditCardEnabled DWord 0x00000000
+}else {
+    Del-Val $ChromeRegistryBase AutofillCreditCardEnabled
+    Del-Val $EdgeRegistryBase AutofillCreditCardEnabled
 }
 
 
