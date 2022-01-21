@@ -141,6 +141,11 @@ $disableAddressAutofill = "false"
 $disablePayment = "false"
 
 
+<# Disable access to settings page
+(URLBlocklist policy) #>
+
+$disableSettings = "false"
+
 
 
 
@@ -549,6 +554,14 @@ if ($setAllowList -eq "true") {
 }else {
     Del-Key $ChromeRegistryBase\ExtensionInstallAllowlist
     Del-Key $EdgeRegistryBase\ExtensionInstallAllowlist
+}
+
+if ($disableSettings -eq "true") {
+    Set-Val $ChromeRegistryBase\URLBlocklist 1 REG_SZ chrome://settings
+    Set-Val $EdgeRegistryBase\URLBlocklist 1 REG_SZ edge://settings
+}else {
+    Del-Val $ChromeRegistryBase\URLBlocklist 1
+    Del-Val $EdgeRegistryBase\URLBlocklist 1
 }
 
 
